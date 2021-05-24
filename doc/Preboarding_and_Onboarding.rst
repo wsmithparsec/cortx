@@ -87,6 +87,17 @@ You can also perform the onboarding tasks from the **Settings** page.
 #. Optional: If you want to receive email notifications, select the **Subscribe to email notifications** checkbox. The **Notification settings: Email** page is displayed.
    
    #. Fill in the fields appropriately.
+   
+   Example:
+        SMTP host: smtp.gmail.com
+        Port: 587
+        Use SLL: True
+        Use Authentication: True
+        Authentication name: cststng@gmail.com
+        Authentication password: [not applicable]
+        Email from: cststng@gmail.com
+        Email to: cststng@gmail.com
+
        
    #. After filling information in all the fields, click **Send test mail**. If configured correctly, you should receive a test mail from CORTX.
        
