@@ -1,6 +1,6 @@
 {
   "scanSettings": {
-    "configMode": "AUTO",
+    "configMode": "LOCAL",
 	"configExternalURL": "",
 	"projectToken": "",
 	"baseBranches": ["main"]
@@ -10,6 +10,6 @@
     "vulnerableCheckRunConclusionLevel": "failure"
   },
   "issueSettings": {
-    "minSeverityLevel": "HIGH"
+    "minSeverityLevel": "NONE"
   }
-} 
+}  

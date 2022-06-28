@@ -174,6 +174,13 @@ class PersistentStats:
       date=self.get_latest(repo)[1]
     return self.stats[repo][date].keys()
 
+  def get_all_keys(self,repo):
+    all_keys = set()
+    for date in self.stats[repo].keys():
+      s = self.stats[repo][date].keys()
+      all_keys |= s
+    return all_keys
+
   def get_values(self,repo,key,dates=None):
     Values=[]
     if not dates:
@@ -487,7 +494,11 @@ class CortxCommunity:
     return self.people[login].get_login()
 
   def get_type(self,login):
-    return self.people[login].get_type()
+    try:
+      return self.people[login].get_type()
+    except KeyError:
+      print("Weird, no info known about %s" % login)
+      return None
 
   def values(self):
     return self.people.values()
@@ -626,9 +637,10 @@ def get_teams(url):
     teams.add(team)
   return sorted(teams)
 
-# one thing to consider in the future is maybe this should check repo.parent
-# some repo's are forked in an org and maybe we shouldn't scrape them
-# that might be a way to do that
+# get public repos for an org
+# skips repos's that are private 
+# skips repos's that are forked
+# skips repos's that are archived
 def get_repos(gh=None,org_name='Seagate',prefix='cortx'):
   def prefix_included(repo_name,prefix):
     if prefix is None:
@@ -645,6 +657,12 @@ def get_repos(gh=None,org_name='Seagate',prefix='cortx'):
   repos = [] 
   for repo in orepos:
     if prefix_included(repo.name,prefix) is False or repo.name.endswith('.old') or repo.name.endswith('-old') or repo.private:
+      continue
+    elif repo.fork:
+      #print("Skipping %s because it is a fork of %s" % (repo.name,repo.parent))
+      continue
+    elif repo.archived:
+      #print("Skipping %s because it is archived" % (repo.name))
       continue
     else:
       repos.append(repo)
